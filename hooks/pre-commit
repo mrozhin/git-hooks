@@ -1,0 +1,11 @@
+#!/bin/bash
+#Prevents commiting *.js file which contains "debugger"
+files_names=$(git diff --cached --name-only | grep \.js$)
+echo $files_names" " | while read -d " " file_name; do
+  diff_with_debugger=$(git diff --cached $file_name | grep "^\+[ \t]*debugger\(;\| \|\t\\|$\)")
+  if [ "$diff_with_debugger" != "" ]; then
+    echo "Remove 'debugger' first at "$file_name
+    echo $diff_with_debugger
+    exit 1;
+  fi
+done;

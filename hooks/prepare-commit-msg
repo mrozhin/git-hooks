@@ -1,0 +1,9 @@
+#!/bin/bash
+#Adds "refs #" to commit for redmine references
+
+new_file=$1.githook.tmp
+echo "# refs #" > $new_file
+cat $1 |while read  line; do
+ echo $line >> $new_file
+done
+mv $new_file $1
